@@ -1,0 +1,30 @@
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: example 
+    ports:
+      - 5432:5432
+    volumes:
+      # Bind root directory into docker container /app folder
+      - ./:/app
+  psql-client:
+    image: postgres
+    depends_on:
+      - db
+    entrypoint: >
+      sh -c "
+        echo 'Waiting for Postgres...';
+        until pg_isready -h db -U postgres; do
+          sleep 1;
+        done;
+        echo 'Postgres is ready. Connecting...';
+        psql -h db -U postgres 
+      "
+    environment:
+      PGPASSWORD: example 
+    stdin_open: true
+    tty: true
