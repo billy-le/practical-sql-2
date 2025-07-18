@@ -165,3 +165,13 @@ FROM us_counties_pop_est_2019;
 
 SELECT mode() WITHIN GROUP (ORDER BY births_2019)
 FROM us_counties_pop_est_2019;
+
+-- Try It Yourself
+
+SELECT 3.14 * (5 ^ 2);
+
+SELECT county_name AS county, state_name AS state, births_2019 as births, deaths_2019 as deaths, births_2019::numeric / deaths_2019 as birth_to_death_ratio FROM us_counties_pop_est_2019 WHERE deaths_2019 != 0 ORDER BY birth_to_death_ratio DESC;
+
+SELECT percentile_cont(.5) WITHIN GROUP (ORDER BY pop_est_2019) AS california_median FROM us_counties_pop_est_2019 WHERE state_name = 'Calfornia'; 
+
+SELECT percentile_cont(.5) WITHIN GROUP (ORDER BY pop_est_2019) AS new_york_median FROM us_counties_pop_est_2019 WHERE state_name = 'New York';
