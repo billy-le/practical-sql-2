@@ -11,6 +11,8 @@ services:
     volumes:
       # Bind root directory into docker container /app folder
       - ./:/app
+      # Persist db data in a volume
+      - postgres_data:/var/lib/postgresql/data
   psql-client:
     image: postgres
     depends_on:
@@ -28,3 +30,6 @@ services:
       PGPASSWORD: example 
     stdin_open: true
     tty: true
+
+volumes:
+  postgres_data:
