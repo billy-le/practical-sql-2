@@ -203,3 +203,33 @@ WHERE street = 'ZWICKY AVENUE';
 -- Listing 8-14: Creating a B-tree index on the new_york_addresses table
 
 CREATE INDEX street_idx ON new_york_addresses (street);
+
+-- Try It Yourself
+
+CREATE TABLE albums (
+    album_id bigint GENERATED ALWAYS AS IDENTITY,
+    catalog_code text,
+    title text,
+    artist text,
+    release_date date,
+    genre text,
+    description text
+);
+
+CREATE TABLE songs (
+    song_id bigint GENERATED ALWAYS AS IDENTITY,
+    title text,
+    composers text,
+    album_id bigint
+);
+
+ALTER TABLE albums ADD CONSTRAINT album_pkey PRIMARY KEY (album_id);
+
+ALTER TABLE songs ADD CONSTRAINT song_id_pkey PRIMARY KEY (song_id);
+ALTER TABLE songs ADD CONSTRAINT album_id_fkey FOREIGN KEY (album_id) REFERENCES albums(album_id);
+ALTER TABLE songs ADD CONSTRAINT albumn_song_title_unq UNIQUE (album_id, title);
+
+EXPLAIN ANALYZE SELECT * FROM albums WHERE artist = 'Cold Play';
+CREATE INDEX artist_idx ON albums (artist);
+CREATE INDEX album_fkey_idx ON songs (album_id);
+
