@@ -258,3 +258,14 @@ FROM us_counties_pop_est_2019 AS c2019
 ON c2019.state_fips = c2010.state_fips
     AND c2019.county_fips = c2010.county_fips
 ORDER BY pct_change DESC;
+
+-- Try It Yourself
+
+SELECT '2010' AS year, estimates_base_2010 AS pop_est, county_name AS county, state_name AS state FROM us_counties_pop_est_2010 UNION ALL SELECT '2019' AS year, pop_est_2019 AS pop_est, county_name AS county, state_name AS state FROM us_counties_pop_est_2019 ORDER BY state, county, year, pop_est;
+
+SELECT percentile_cont(.5) WITHIN GROUP (ORDER BY pct_change) AS median
+FROM (
+    SELECT round((c2019.pop_est_2019::numeric - c2010.estimates_base_2010) / c2010.estimates_base_2010 * 100, 1) AS pct_change
+    FROM us_counties_pop_est_2019 as c2019 JOIN us_counties_pop_est_2010 as c2010
+    ON c2019.state_fips = c2010.state_fips AND c2019.county_fips = c2010.county_fips
+) as subquery;
