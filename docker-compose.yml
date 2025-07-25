@@ -1,6 +1,7 @@
 services:
   db:
-    image: postgres
+    image: postgis/postgis
+    platform: linux/amd64
     restart: always
     environment:
       POSTGRES_DB: postgres
@@ -14,7 +15,8 @@ services:
       # Persist db data in a volume
       - postgres_data:/var/lib/postgresql/data
   psql-client:
-    image: postgres
+    image: postgis/postgis
+    platform: linux/amd64
     depends_on:
       - db
     entrypoint: >
