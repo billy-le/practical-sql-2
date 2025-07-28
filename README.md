@@ -89,3 +89,15 @@ Questions? Please open an issue in this repository by navigating to `Issues` and
 2. Run `make psql` to connect to the instance
 3. Project files are mounted at `/app`
 4. To close connect, exit out of psql and run `make down`
+
+### Importing shapefiles
+
+Unzip shapes files from Ch 15 into a folder called shapefiles
+
+```bash
+shp2pgsql -I -s 4269 -W LATIN1 Chapter_15/shapefiles/tl_2019_us_county.shp us_counties_2019_shp | docker run -i --rm --name practical-sql-psql --network practical-sql-2_default -e PGPASSWORD=example postgres psql -d analysis -h practical-sql-2-db-1 -U postgres
+
+shp2pgsql -I -s 4269 -W LATIN1 Chapter_15/shapefiles/tl_2019_35049_linearwater.shp santafe_linearwater_2019 | docker run -i --rm --name practical-sql-psql --network practical-sql-2_default -e PGPASSWORD=example postgres psql -d analysis -h practical-sql-2-db-1 -U postgres
+
+shp2pgsql -I -s 4269 -W LATIN1 Chapter_15/shapefiles/tl_2019_35049_roads.shp santafe_roads_2019 | docker run -i --rm --name practical-sql-psql --network practical-sql-2_default -e PGPASSWORD=example postgres psql -d analysis -h practical-sql-2-db-1 -U postgres
+```
